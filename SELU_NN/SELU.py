@@ -83,4 +83,16 @@ class Weight_Init():
     def kaiming2(self):
         return torch.randn(self.fan_in, self.fan_out) * math.sqrt(1./self.fan_in)
     
+    def seluinit(self):
+        return torch.randn(self.fan_in, self.fan_out) / math.sqrt(self.fan_in)
+    
 def stats(x): return x.mean(), x.std()
+
+
+
+
+def selu_normal_(tensor, mode1='fan_in', mode2='fan_out'):
+    fan_in = nn.init._calculate_correct_fan(tensor, mode1)
+    fan_out = nn.init._calculate_correct_fan(tensor, mode2)
+    with torch.no_grad():
+        return torch.randn(fan_in, fan_out) / math.sqrt(1/.fan_in)
